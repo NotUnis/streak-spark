@@ -1,4 +1,9 @@
 :root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #090909; color: #f1eee8; }
+[hidden] { display: none !important; }
+#alarmTime { display: block; width: 100%; margin: 12px 0; padding: 14px; color: #eee9e3; background: #20201e; border: 1px solid #ffffff20; border-radius: 12px; font: inherit; font-size: 1.6rem; }
+button.alarm-action { display: block; width: 100%; height: auto; margin: 10px 0; padding: 14px; border-radius: 12px; background: #ffffff0d; color: #eee9e3; font: inherit; font-size: .9rem; }
+button.alarm-action:hover { background: #ffffff18; }
+button.alarm-action.primary { background: #ff813d; color: #140b04; }
 .reminder-open { width: auto; height: auto; margin: 22px 0 0; color: #928d86; font: inherit; font-size: .75rem; padding: 10px; }
 #reminderDialog label { display: block; margin: 24px 0 10px; color: #aaa39b; font-size: .875rem; }
 #reminderTime { width: 100%; border: 1px solid #ffffff20; background: #20201e; color: #fff; border-radius: 12px; padding: 14px; font: inherit; font-size: 1.5rem; margin-bottom: 18px; }

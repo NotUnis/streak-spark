@@ -7,7 +7,7 @@
   <meta name="description" content="A little fire for showing up every day.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="styles.css?v=7">
   <title>Streak Spark</title>
 </head>
 <body>
@@ -32,7 +32,7 @@
     <div class="streak" aria-live="polite"><strong id="streakCount">0</strong><span>day</span></div>
     <button class="evolution" id="evolutionButton" aria-haspopup="dialog"><span id="flameName">Ember</span><span class="progress"><span id="progressFill"></span></span><span id="nextGoal">7 days to Azure</span></button>
     <p class="sr-only" id="status" role="status"></p>
-    <button class="reminder-open" id="reminderOpen" aria-haspopup="dialog">Set reminder</button>
+    <button class="reminder-open" id="alarmOpen" aria-haspopup="dialog">Set alarm</button>
   </main>
   <dialog id="evolutions" aria-labelledby="evolutionTitle">
     <header><h1 id="evolutionTitle">Your fire evolves.</h1><button id="closeEvolution" aria-label="Close flame collection">×</button></header>
@@ -40,17 +40,25 @@
     <div id="flameCollection"></div>
     <p class="collection-note">Tap a flame to preview it. Your current streak decides which one burns.</p>
   </dialog>
-  <dialog id="reminderDialog" aria-labelledby="reminderTitle">
-    <header><h1 id="reminderTitle">Keep your fire alive.</h1><button class="close-reminder" aria-label="Close reminder">×</button></header>
-    <p class="intro">A daily calendar alert, even when this app is closed.</p>
-    <label for="reminderTime">Remind me every day at</label>
-    <select id="reminderTime"></select>
-    <a id="appleReminder" class="reminder-action">Add to Apple Calendar</a>
-    <a id="googleReminder" class="reminder-action" target="_blank" rel="noopener">Add to Google Calendar</a>
-    <p class="collection-note">Finish adding it in your calendar and enable an alert at the event time. On iPhone, allow alerts for the subscribed calendar. Google Calendar works on iPhone and Android.</p>
-    <p class="collection-note">This is a notification, not a ringing alarm. It repeats even after check-in. Change or remove it in Calendar; choosing a new time here does not update a reminder already added.</p>
+  <dialog id="alarmDialog" aria-labelledby="alarmTitle">
+    <header><h1 id="alarmTitle">Set your alarm.</h1><button class="close-reminder" id="alarmClose" aria-label="Close alarm">×</button></header>
+    <p class="intro">Keep this app open and your screen unlocked. Turn up your media volume.</p>
+    <label for="alarmTime">Ring at</label>
+    <input id="alarmTime" type="time" required value="20:00">
+    <p id="alarmStatus" class="intro" role="status">No alarm set.</p>
+    <div id="alarmSetup">
+      <button class="alarm-action" id="alarmSet">Set alarm</button>
+      <button class="alarm-action" id="alarmTest">Test sound (3 seconds)</button>
+      <button class="alarm-action" id="alarmCancel" hidden>Cancel alarm</button>
+    </div>
+    <div id="alarmRinging" hidden>
+      <button class="alarm-action primary" id="alarmStop">Stop</button>
+      <button class="alarm-action" id="alarmSnooze">Snooze 5 minutes</button>
+    </div>
+    <p class="collection-note">One-time alarm. Closing, reloading, or leaving this app can prevent ringing. Reopen these controls to arm it again after a reload.</p>
+    <p class="collection-note">Previously added calendar reminders must be removed in your calendar.</p>
   </dialog>
-  <script src="app.js?v=6" defer></script>
-  <script src="reminder.js?v=6" defer></script>
+  <script src="app.js?v=7" defer></script>
+  <script src="alarm.js?v=7" defer></script>
 </body>
 </html>

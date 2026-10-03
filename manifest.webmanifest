@@ -1,0 +1,11 @@
+{
+  "name": "Streak Spark",
+  "short_name": "Streak",
+  "description": "Keep a daily streak for doing something useful.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#090713",
+  "theme_color": "#090713",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

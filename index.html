@@ -7,7 +7,7 @@
   <meta name="description" content="A little fire for showing up every day.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
   <title>Streak Spark</title>
 </head>
 <body>
@@ -30,8 +30,15 @@
       <span class="embers" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
     </button>
     <div class="streak" aria-live="polite"><strong id="streakCount">0</strong><span>day</span></div>
+    <button class="evolution" id="evolutionButton" aria-haspopup="dialog"><span id="flameName">Ember</span><span class="progress"><span id="progressFill"></span></span><span id="nextGoal">7 days to Azure</span></button>
     <p class="sr-only" id="status" role="status"></p>
   </main>
-  <script src="app.js?v=4" defer></script>
+  <dialog id="evolutions" aria-labelledby="evolutionTitle">
+    <header><h1 id="evolutionTitle">Your fire evolves.</h1><button id="closeEvolution" aria-label="Close flame collection">×</button></header>
+    <p class="intro">A little effort, every day. A new flame along the way.</p>
+    <div id="flameCollection"></div>
+    <p class="collection-note">Tap a flame to preview it. Your current streak decides which one burns.</p>
+  </dialog>
+  <script src="app.js?v=5" defer></script>
 </body>
 </html>

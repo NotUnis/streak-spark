@@ -5,7 +5,7 @@ main { min-height: 100svh; display: flex; flex-direction: column; justify-conten
 #clock { font-size: 1.25rem; font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: .08em; color: #8b8884; }
 button { position: relative; flex: none; width: min(70vw, 290px); height: min(87.5vw, 362px); margin: clamp(24px, 5vh, 48px) 0 30px; padding: 0; border: 0; background: transparent; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 button:focus-visible { outline: 1px solid #ffb777; outline-offset: 12px; border-radius: 40%; }
-.fire { position: relative; width: 100%; height: 100%; overflow: visible; transform-origin: 50% 93%; animation: breathe 4.5s ease-in-out infinite; transition: scale .25s; }
+.fire { position: relative; width: 100%; height: 100%; overflow: visible; transform-origin: 50% 93%; animation: breathe 4.5s ease-in-out infinite; transition: scale .25s; filter: hue-rotate(var(--flame-hue, 0deg)); }
 button:hover .fire { scale: 1.025; }
 button:active .fire { scale: .95; }
 .body { transform-origin: 50% 90%; animation: flicker 3.3s ease-in-out infinite; }
@@ -33,3 +33,30 @@ button.ignite .glow { animation: flare .85s ease-out; }
 @keyframes count { 40% { transform: translateY(-5px); color: #ffbf83; } }
 @media (max-height: 620px) { button { width: 180px; height: 225px; margin: 20px 0; } main { padding: 20px; } .streak strong { font-size: 2.75rem; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.glow, .embers { filter: hue-rotate(var(--flame-hue, 0deg)); }
+.glow { filter: blur(65px) hue-rotate(var(--flame-hue, 0deg)); }
+button[data-tier="azure"] .body { animation-duration: 2.5s; }
+button[data-tier="amethyst"] .fire { animation-duration: 3s; }
+button[data-tier="amethyst"] .heart { animation-duration: 1.8s; }
+button[data-tier="solar"] .fire { filter: hue-rotate(25deg) saturate(.8) drop-shadow(0 0 12px #ffb43b30); }
+button[data-tier="solar"] .glow { opacity: .25; }
+button.evolution { width: 170px; height: auto; margin: 26px 0 0; display: grid; gap: 9px; justify-items: center; font: inherit; color: #aaa39b; }
+#flameName { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; }
+#nextGoal { font-size: .7rem; color: #77736e; }
+.progress { width: 72px; height: 2px; background: #ffffff12; border-radius: 4px; overflow: hidden; }
+.progress span { display: block; height: 100%; background: #ff9e63; filter: hue-rotate(var(--flame-hue)); transition: width .5s; }
+dialog { width: min(440px, calc(100% - 32px)); max-height: 90svh; padding: 24px; color: #eee9e3; background: #141413; border: 1px solid #ffffff12; border-radius: 24px; box-shadow: 0 25px 100px #0008; }
+dialog::backdrop { background: #000a; backdrop-filter: blur(12px); }
+dialog header { display: flex; align-items: center; justify-content: space-between; }
+dialog h1 { font-size: 1.25rem; font-weight: 500; margin: 0; }
+dialog #closeEvolution { width: 36px; height: 36px; margin: 0; font-size: 1.6rem; color: #aaa; }
+.intro, .collection-note { color: #928d86; font-size: .875rem; line-height: 1.6; }
+.collection-note { margin-bottom: 0; font-size: .75rem; }
+button.flame-card { display: flex; align-items: center; gap: 14px; width: 100%; height: auto; min-height: 84px; padding: 12px 8px; margin: 0; text-align: left; color: #eee9e3; border-bottom: 1px solid #ffffff09; border-radius: 8px; }
+.flame-card:hover { background: #ffffff05; }
+.flame-card .miniature { width: 38px; height: 52px; flex: none; filter: hue-rotate(var(--card-hue)); animation: none; }
+.flame-card > span { display: grid; gap: 5px; }
+.flame-card strong { font-size: .9rem; font-weight: 500; }
+.flame-card span span { color: #8f8981; font-size: .75rem; }
+.flame-card small { margin-left: auto; color: #aaa298; white-space: nowrap; font-size: .7rem; }
+@media(max-height:700px) { #streakButton { width: 190px; height: 237px; margin: 22px 0; } }

@@ -1,9 +1,55 @@
-const STORAGE_KEY="streak-spark-v1",clock=document.querySelector("#clock"),button=document.querySelector("#streakButton"),count=document.querySelector("#streakCount"),dayLabel=document.querySelector("#dayLabel"),embers=document.querySelector("#embers");
-const dateKey=(date=new Date())=>[date.getFullYear(),String(date.getMonth()+1).padStart(2,"0"),String(date.getDate()).padStart(2,"0")].join("-");
-const load=()=>{try{const data=JSON.parse(localStorage.getItem(STORAGE_KEY));return data&&Array.isArray(data.days)?data:{days:[]}}catch{return{days:[]}}};const save=data=>localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
-function streakFor(days){const set=new Set(days),cursor=new Date();if(!set.has(dateKey(cursor)))cursor.setDate(cursor.getDate()-1);let value=0;while(set.has(dateKey(cursor))){value++;cursor.setDate(cursor.getDate()-1)}return value}
-function updateClock(){clock.textContent=new Intl.DateTimeFormat(undefined,{hour:"2-digit",minute:"2-digit",hour12:false}).format(new Date())}
-function render(){const data=load(),value=streakFor(data.days),done=data.days.includes(dateKey());count.textContent=value;dayLabel.textContent=value===1?"day":"days";button.classList.toggle("done",done);button.setAttribute("aria-label",done?"Today is complete":"Mark today as complete")}
-function makeEmbers(){const colors=["#ff3c5e","#ff7b22","#ffc13c"];embers.innerHTML=Array.from({length:18},(_,i)=>`<i class="ember" style="--left:${10+Math.random()*80}%;--size:${3+Math.random()*5}px;--duration:${1.8+Math.random()*2.6}s;--delay:${-Math.random()*4}s;--drift:${-35+Math.random()*70}px;--color:${colors[i%3]}"></i>`).join("")}
-function burst(){const colors=["#ff315b","#ff702d","#ffd45b","#fff4bd"];for(let i=0;i<34;i++){const spark=document.createElement("i"),angle=Math.PI*2*i/34+Math.random()*.14,distance=130+Math.random()*190;spark.className="burst";spark.style.setProperty("--x",`${Math.cos(angle)*distance}px`);spark.style.setProperty("--y",`${Math.sin(angle)*distance}px`);spark.style.setProperty("--color",colors[i%colors.length]);document.body.append(spark);setTimeout(()=>spark.remove(),1000)}}
-button.addEventListener("click",()=>{const data=load(),today=dateKey();if(!data.days.includes(today)){data.days.push(today);save(data)}button.classList.remove("ignite");void button.offsetWidth;button.classList.add("ignite");burst();if(navigator.vibrate)navigator.vibrate([35,25,70]);setTimeout(()=>button.classList.remove("ignite"),1000);render()});makeEmbers();updateClock();setInterval(updateClock,1000);render();if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("service-worker.js"));
+const STORAGE_KEY = "streak-spark-v1";
+const clock = document.querySelector("#clock");
+const button = document.querySelector("#streakButton");
+const count = document.querySelector("#streakCount");
+const status = document.querySelector("#status");
+const streak = document.querySelector(".streak");
+const dateKey = (date = new Date()) => [date.getFullYear(), String(date.getMonth()+1).padStart(2,"0"), String(date.getDate()).padStart(2,"0")].join("-");
+function load() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return { days: [] };
+  const data = JSON.parse(raw);
+  if (!Array.isArray(data.days)) throw new Error("Invalid save");
+  return data;
+}
+function streakFor(days) {
+  const dates = new Set(days), cursor = new Date();
+  if (!dates.has(dateKey(cursor))) cursor.setDate(cursor.getDate()-1);
+  let value = 0;
+  while (dates.has(dateKey(cursor))) { value++; cursor.setDate(cursor.getDate()-1); }
+  return value;
+}
+function render() {
+  clock.textContent = new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(new Date());
+  clock.dateTime = new Date().toISOString();
+  try {
+    const data = load();
+    count.textContent = streakFor(data.days);
+    button.setAttribute("aria-label", data.days.includes(dateKey()) ? "Today saved. Tap to enjoy the flame." : "I did something useful today. Save my streak.");
+  } catch { status.textContent = "Your saved streak could not be read. Please enable browser storage and reload."; }
+}
+let animationTimer;
+button.addEventListener("click", () => {
+  try {
+    const data = load(), today = dateKey();
+    const isNew = !data.days.includes(today);
+    if (isNew) {
+      data.days.push(today);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      status.textContent = "Today saved.";
+    }
+    clearTimeout(animationTimer);
+    button.classList.remove("ignite"); streak.classList.remove("bump");
+    void button.offsetWidth;
+    button.classList.add("ignite");
+    if (isNew) streak.classList.add("bump");
+    if (navigator.vibrate) navigator.vibrate(20);
+    animationTimer = setTimeout(() => { button.classList.remove("ignite"); streak.classList.remove("bump"); }, 900);
+    render();
+  } catch { status.textContent = "Unable to save. Please enable browser storage and try again."; }
+});
+render();
+setInterval(render, 1000);
+window.addEventListener("storage", render);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) render(); });
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("service-worker.js").catch(() => {});

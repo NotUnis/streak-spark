@@ -1,4 +1,10 @@
 :root { color-scheme: dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #090909; color: #f1eee8; }
+.reminder-open { width: auto; height: auto; margin: 22px 0 0; color: #928d86; font: inherit; font-size: .75rem; padding: 10px; }
+#reminderDialog label { display: block; margin: 24px 0 10px; color: #aaa39b; font-size: .875rem; }
+#reminderTime { width: 100%; border: 1px solid #ffffff20; background: #20201e; color: #fff; border-radius: 12px; padding: 14px; font: inherit; font-size: 1.5rem; margin-bottom: 18px; }
+.reminder-action { display: block; text-align: center; padding: 14px; margin: 10px 0; border-radius: 12px; background: #ffffff0d; color: #eee9e3; text-decoration: none; font-size: .9rem; }
+.reminder-action:hover { background: #ffffff18; }
+button.close-reminder { width: 36px; height: 36px; margin: 0; color: #aaa; font-size: 1.6rem; }
 * { box-sizing: border-box; }
 body { margin: 0; }
 main { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: max(32px, env(safe-area-inset-top)) 24px max(32px, env(safe-area-inset-bottom)); }
